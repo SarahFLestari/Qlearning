@@ -4,19 +4,22 @@ import math as mth
 import random
 from random import randint
 
+# open file
 file = open('DataTugasML3.txt')
 R = [0]
 Q = []
 
-
+# Set Alfa dan Gamma 
 alfa = 1
 gamma = 1
 
+# Set setiap action kedalam angka agar bisa berpindah indeks state
 N = 10
 E = 1
 W = -1
 S = -10
 
+# Untuk state yang berada di kiri, kanan, atas, dan bawah menjadi batas sehingga action yang digunakan terbatas sesuai visualisasi matriks
 allAction = [N,E,W,S]
 actionBawah = [N,E,W]
 actionKiri = [N,E,S]
@@ -26,7 +29,7 @@ action1 = [N,E]
 action91 = [S,E]
 action10 = [N,W]
 
-
+#input data 
 with open('DataTugasML3.txt') as f:
     lines = f.readlines()
     x = [float(line.split()[0]) for line in lines]
@@ -42,7 +45,7 @@ print(Q)
 
 # state = randint(1,100)
 
-
+# fungsi mencari maksimal dari setiap action di tabel Q
 def qMax(state):
 	action = []
 	if (state == 1 ):
@@ -71,7 +74,8 @@ def qMax(state):
 		forMax = [Q[state-1][0],Q[state-1][1],Q[state-1][2],Q[state-1][3]]
 
 	return max(forMax)
-
+	
+# fungsi q menghitung rumus q(s,a)
 def q(state,a):
 	if (a == 0):
 		action = N
@@ -88,7 +92,7 @@ def q(state,a):
 
 	return newQsa
 
-
+# Looping semua episode sebanyak n
 n = 10
 for i in range(0,n):
 	#Looping untuk satu episode :
@@ -128,6 +132,7 @@ for i in range(0,n):
 		print("Next STATE", s)
 		print(Q)
 
+#menentukan best action setiap state
 bestAction = []
 
 for i in range(len(Q)):
