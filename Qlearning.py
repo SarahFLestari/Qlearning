@@ -7,7 +7,7 @@ from random import randint
 file = open('DataTugasML3.txt')
 R = [0]
 Q = []
-Reward = []
+
 
 alfa = 1
 gamma = 1
@@ -88,48 +88,53 @@ def q(state,a):
 
 	return newQsa
 
-s = 1
 
-#Looping untuk satu episode :
+n = 10
+for i in range(0,n):
+	#Looping untuk satu episode :
+	print("Episode ", i)
+	s = 1
+	while (s != 100):
+		print("Current State",s)
+		if (s == 1 ):
+			act = random.choice(action1)
+		elif (s == 91):
+			act = random.choice(action91)
+		elif (s == 10):
+			act = random.choice(action10)
+		# elif(s == 100):
+		# 	break
+		elif (s > 1 and s < 10 ):
+			act = random.choice(actionBawah)
+		elif (s > 91 and s < 100):
+			act = random.choice(actionAtas)
+		elif (s % 10 == 1 ):
+			act = random.choice(actionKiri)
+		elif (s % 10 == 0):
+			act = random.choice(actionKanan)
+		else :
+			act = random.choice(allAction)
 
-while (s != 100):
-	print("Current State",s)
-	if (s == 1 ):
-		act = random.choice(action1)
-	elif (s == 91):
-		act = random.choice(action91)
-	elif (s == 10):
-		act = random.choice(action10)
-	# elif(s == 100):
-	# 	break
-	elif (s > 1 and s < 10 ):
-		act = random.choice(actionBawah)
-	elif (s > 91 and s < 100):
-		act = random.choice(actionAtas)
-	elif (s % 10 == 1 ):
-		act = random.choice(actionKiri)
-	elif (s % 10 == 0):
-		act = random.choice(actionKanan)
-	else :
-		act = random.choice(allAction)
+		if (act == N):
+			a = 0
+		elif (act == E):
+			a = 1
+		elif (act == W):
+			a = 2
+		elif (act == S):
+			a = 3
+		Q[s-1][a] = (q(s,a))
+		s = s+act
+		print("Next STATE", s)
+		print(Q)
 
-	if (act == N):
-		a = 0
-	elif (act == E):
-		a = 1
-	elif (act == W):
-		a = 2
-	elif (act == S):
-		a = 3
-	Q[s-1][a] = (q(s,a))
-	s = s+act
-	print("Next STATE", s)
-	print(Q)
+bestAction = []
 
+for i in range(len(Q)):
+	bestAction.append(Q[i].index(max(Q[i])))
 
+print(bestAction)
 
-
-	
 
 
 
