@@ -17,6 +17,7 @@ E = 1
 W = -1
 S = -10
 
+allAction = [N,E,W,S]
 actionBawah = [N,E,W]
 actionKiri = [N,E,S]
 actionKanan = [N,W,S]
@@ -43,25 +44,48 @@ print(Q)
 
 
 def qMax(state):
-	N = Q[state][0]
-	E = Q[state][1]
-	W = Q[state][2]
-	S = Q[state][3]
-	maks = [N,E,W,S]
-	return max(maks)
+	action = []
+	if (state == 1 ):
+		action = action1
+		forMax = [Q[state][0],Q[state][1]]
+	elif (state == 91):
+		action = action91
+		forMax = [Q[state][1],Q[state][3]]
+	elif (state == 10):
+		action = action10
+		forMax = [Q[state][0],Q[state][2]]
+	elif (state > 1 and state < 10 ):
+		action = actionBawah
+		forMax = [Q[state][0],Q[state][1],Q[state][2]]
+	elif (state > 91 and state < 100):
+		action = actionAtas
+		forMax = [Q[state][1],Q[state][2],Q[state][3]]
+	elif (state % 11 == 0 ):
+		action = actionKiri
+		forMax = [Q[state][0],Q[state][1],Q[state][3]]
+	elif (state % 10 == 1):
+		action = actionKanan
+		forMax = [Q[state][0],Q[state][2],Q[state][3]]
+	else :
+		action = allAction
+		forMax = [Q[state][0],Q[state][1],Q[state][2],Q[state][3]]
 
-def q(state,action):
-	if (action == N):
-		a = 0
-	elif (action == E):
-		a = 1
-	elif (action == W):
-		a = 2
-	elif (action == S):
-		a = 3	
+	return max(forMax)
+
+def q(state,a):
+	if (a == 0):
+		action = N
+	elif (a == 1):
+		action = E
+	elif (a == 2):
+		action = W
+	elif (a == 3):
+		action = S
+	# print(action, qMax(state+action))
 	r = R[state+action]
 	qSA = Q[state][a]
 	newQsa = qSA + alfa * (r + gamma * qMax(state+action) - qSA)
+
 	return newQsa
 
 s = 1
@@ -95,34 +119,43 @@ s = 1
 #Looping untuk satu episode :
 
 
-while (s != 100):	
+while (s != 100):
+	print("Current State",s)
+	if (s >= 100):
+		break
 	if (s == 1 ):
-		a = random.choice(action1)
+		act = random.choice(action1)
 	elif (s == 91):
-		a = random.choice(action91)
+		act = random.choice(action91)
 	elif (s == 10):
-		a = random.choice(action10)
+		act = random.choice(action10)
+	elif(s == 100):
+		break
 	elif (s > 1 and s < 10 ):
-		a = random.choice(actionBawah)
+		act = random.choice(actionBawah)
 	elif (s > 91 and s < 100):
-		a = random.choice(actionAtas)
-	elif (s % 11 == 0 ):
-		a = random.choice(actionKiri)
-	elif (s % 10 == 1):
-		a = random.choice(actionKanan)
+		act = random.choice(actionAtas)
+	elif (s % 10 == 1 ):
+		act = random.choice(actionKiri)
+	elif (s % 10 == 0):
+		act = random.choice(actionKanan)
+	else :
+		act = random.choice(allAction)
 
-	if (a == N):
+	if (act == N):
 		a = 0
-	elif (a == E):
+	elif (act == E):
 		a = 1
-	elif (a == W):
+	elif (act == W):
 		a = 2
-	elif (a == S):
+	elif (act == S):
 		a = 3
 	Q[s-1][a] = (q(s,a))
-	state = s+a
+	s = s+act
+	print("Next STATE", s)
+	print(Q)
 
-print(Q)
+
 # print(sum(Reward))
 
 
