@@ -8,6 +8,7 @@ from random import randint
 file = open('DataTugasML3.txt')
 R = [0]
 Q = []
+totalReward = []
 
 # Set Alfa dan Gamma 
 alfa = 1
@@ -74,6 +75,21 @@ def qMax(state):
 		forMax = [Q[state-1][0],Q[state-1][1],Q[state-1][2],Q[state-1][3]]
 
 	return max(forMax)
+
+# #fungsi total reward
+# def sumR(state,action):
+# 	if (action == 0):
+# 		action = N
+# 	elif (action == 1):
+# 		action = E
+# 	elif (action == 2):
+# 		action = W
+# 	elif (action == 3):
+# 		action = S
+# 	rCS = R[state]
+# 	rNS = R[state+action]
+# 	total = rCS + rNS
+# 	return total
 	
 # fungsi q menghitung rumus q(s,a)
 def q(state,a):
@@ -89,17 +105,16 @@ def q(state,a):
 	r = R[state+action]
 	qSA = Q[state][a]
 	newQsa = qSA + alfa * (r + gamma * qMax(state+action) - qSA)
-
 	return newQsa
 
-# Looping semua episode sebanyak n
+# Looping semua episode sebanyak n, bisa diganti agar memperbanyak learning agent
 n = 10
 for i in range(0,n):
 	#Looping untuk satu episode :
 	print("Episode ", i)
 	s = 1
 	while (s != 100):
-		print("Current State",s)
+		# print("Current State",s)
 		if (s == 1 ):
 			act = random.choice(action1)
 		elif (s == 91):
@@ -129,17 +144,45 @@ for i in range(0,n):
 			a = 3
 		Q[s-1][a] = (q(s,a))
 		s = s+act
-		print("Next STATE", s)
-		print(Q)
-
+		# print("Next STATE", s)
+		# print(Q)
+	
+print("Tabel Q", Q)
 #menentukan best action setiap state
 bestAction = []
 
 for i in range(len(Q)):
 	bestAction.append(Q[i].index(max(Q[i])))
-
 print(bestAction)
 
+#menentukan total reward 
+# Algorithm to utilize the Q matrix:
+
+# 1. Set current state = initial state.
+
+# 2. From current state, find the action with the highest Q value.
+
+# 3. Set current state = next state.
+
+# 4. Repeat Steps 2 and 3 until current state = goal state
+
+CurrentState = 1
+while (CurrentState != 100):
+	print("Current State", CurrentState)
+	aksi = bestAction[CurrentState-1]
+	if (aksi == 0):
+		aksi = N
+	elif (aksi == 1):
+		aksi = E
+	elif (aksi == 2):
+		aksi = W
+	elif (aksi == 3):
+		aksi = S
+	CurrentState = CurrentState + aksi
+	totalReward.append(R[CurrentState])
+	print("aksi",aksi)
+	print("Next State",CurrentState)
+print(sum(totalReward))
 
 
 
