@@ -108,7 +108,7 @@ def q(state,a):
 	return newQsa
 
 # Looping semua episode sebanyak n, bisa diganti agar memperbanyak learning agent
-n = 10
+n = 2000
 for i in range(0,n):
 	#Looping untuk satu episode :
 	print("Episode ", i)
@@ -183,6 +183,8 @@ while (CurrentState != 100):
 	print("aksi",aksi)
 	print("Next State",CurrentState)
 print(sum(totalReward))
+
+#reward maksimum adalah 65
 
 
 
